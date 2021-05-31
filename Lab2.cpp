@@ -4,6 +4,7 @@
 **/
 
 #include <iostream>
+#include <vector>
 #include "Game.h"
 
 using namespace std;
@@ -42,5 +43,9 @@ int main(int argc, char** argv)
 {
 	lab1();
 	lab2();
+	vector<Game> glist;
+	Game game; game.createOneGame(game);
+	game.createMultipleGames(glist);
+
 	return EXIT_SUCCESS;
 }

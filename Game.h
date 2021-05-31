@@ -4,6 +4,7 @@
 **/
 
 #include <iostream>
+#include <vector>
 using namespace std;
 const double NO_TIMEOUT(-1);
 
@@ -32,7 +33,7 @@ namespace CST8219 {
 
 		void printGame();
 
-		void createOneGame() {
+		Game createOneGame(Game g) {
 
 			while (true) {
 				cout << "Enter the name: " << endl;
@@ -68,9 +69,28 @@ namespace CST8219 {
 
 			Game aGame = Game(name, numPlayers, timeout);
 			aGame.printGame();
-			
+			return aGame;
 		}
 
+		void Game::createMultipleGames(vector<Game> gameList) {
+
+			int i, n;
+
+
+			cout << "Enter number of games to be created: " << endl;
+			cin >> n;
+
+			for (i = 0; i < n; i++) {
+				Game newGame = Game();
+				gameList.push_back(newGame.createOneGame(newGame));
+			}
+
+			for (i = 0; i < n; i++) {
+				gameList.at(i).printGame();
+			}
+		}
+
+	
 	};
 }
 
