@@ -10,26 +10,28 @@ const double NO_TIMEOUT(-1);
 namespace CST8219 {
 	class Game {
 	private:
+		string name;
 		int numPlayers;
 		double timeout;
 
 	public:
-		Game(int nPlayers, double duration) {
+		Game(string name, int nPlayers, double duration) {
+			this->name = name;
 			numPlayers = nPlayers;
 			timeout = duration;
-			cout << "In constructor with 2 parameters" << endl;
 		}
-		Game(int nPlayers) {
+		Game(string name, int nPlayers) {
+			this->name = name;
+			numPlayers = nPlayers;
 			timeout = NO_TIMEOUT;
-			cout << "In constructor with 1 parameter, nPlayers= " << endl;
 		}
-		Game() {
-			numPlayers = 1;
+		Game(string name):Game(name, 1) {
 			timeout = NO_TIMEOUT;
-			cout << "In constructor with 0 parameters" << endl;
 		}
-		~Game() {
-			cout << "In destructor" << endl;
+		Game():Game("[NoName]") {}
+
+		void printGame() {
+			cout << "Name: " << name << " - Numplayers: " << numPlayers << " - Timeout: " << timeout << endl;
 		}
 	};
 }
