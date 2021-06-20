@@ -1,7 +1,10 @@
-﻿/**
-* Name: Adokeme Tamara
-* Student Number: 040873188
-**/
+﻿/******************************************
+FILE: Lab3.cpp
+PURPOSE: Driver file for Game Application
+AUTHOR(S): Adokeme Tamara - 040973188
+PROFESSOR: Frank Emanuel
+COURSE: [CST8219 – 302]
+******************************************/
 
 #include <iostream>
 #include <vector>
@@ -35,9 +38,20 @@ int lab2() {
 	return EXIT_SUCCESS;
 }
 
+/************************************************************
+* Function name: changeGame
+* Purpose: Modifies a game based on the given parameters
+* Parameters:
+* g = Game to be modified
+* n = New name or default "[Noname]"
+* p = New points or default 1
+* t = New timeout or default -1
+* Return value: void
+**************************************************************/
 void changeGame(Game& g, string n = "[Noname]", int p = 1, double t = -1) {
 	g.setGame(n, p, t);
 }
+
 
 void testReferences() {
 	Game game1 = Game("Game1", 1, 1);
@@ -51,6 +65,31 @@ void testReferences() {
 
 }
 
+void testOperators() {
+	Game original("Fela",5,1200);
+	Game copy(original); // copy constructor by reference
+	cout << "Original is: " << original << " copy is: " << copy << endl;
+	cout << "Increment original: " << original++ << endl;
+	cout << "Increment copy:" << ++copy << endl;
+	cout << "Decrement original:" << --original << endl;
+	cout << "Decrement copy:" << copy-- << endl;
+	// should be true:
+	cout << "Compare equality 1: " << (original == copy) << endl;
+	//should be false:
+	cout << "Compare equality 2: " << (--original == ++copy) << endl;
+	//should be true:
+	cout << "Compare inequality: " << (original != copy) << endl;
+	// This should make original = copy, and then return a Vehicle for output:
+	cout << "Assignment operator: " << (original = copy) << endl;
+}
+
+/************************************************************
+* Function name: printAddress
+* Purpose: prints the address in memory of a game object
+* Parameters:
+* g = Game object whose address is to be printed
+* Return value: void
+**************************************************************/
 void printAddress(Game g) {
 	cout << "\nGame: " << g.getName() << " - Address: " << &g << endl;
 }
@@ -59,11 +98,34 @@ int main(int argc, char** argv)
 {
 	/*lab1();
 	lab2();*/
-	testReferences();
+	/*testReferences();
+	testOperators();
 	vector<Game> glist;
 	Game game;  game.createOneGame(game);
 	printAddress(game);
-	game.createMultipleGames(glist);
+	game.createMultipleGames(glist);*/
+	vector<Player> playersList;
+	//game.getList().push_back();
+	Player p("Pope");
+	playersList.push_back(p);
+	//game.getList().push_back(p);
+	//game.setPlayersList(p);
+	//++p;
+	//p.printPlayer();
+	p.setPlayer("Tam", 11, true);
+	++p;
+	Player q  = new Player(p);
+	playersList.push_back(q);
+	//game.getList().push_back(q);
+	//game.setPlayersList(q);
+	//q.printPlayer();
+	q++;
+	Player r(&q);
+	r++;
+	playersList.push_back(r);
+	for (int i = 0; i < 3; i++)
+		playersList.at(i).printPlayer();
+		//game.getList().at(i).printPlayer();
 
 	return EXIT_SUCCESS;
 }
