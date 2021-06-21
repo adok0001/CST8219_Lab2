@@ -44,7 +44,7 @@ namespace CST8219 {
 		Game();
 		Game(Game*);
 		~Game() {}
-		//function declarations
+		//Utility functions
 		void printGame();
 		Game createOneGame(Game); 
 		void createMultipleGames(vector<Game>);

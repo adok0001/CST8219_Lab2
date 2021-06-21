@@ -29,11 +29,15 @@ namespace CST8219 {
 		bool isCurrentPlayer; // Indicates if he/she is the current player
 
 	public:
+		//Constructors
 		Player(string name = "[Noname]", int points = 0, bool isCurrentPlayer = false);
-		void printPlayer();
-		void setPlayer(string, int, bool);
 		Player(const Player& copy);
 		Player(Player* copy);
+		//Setters & Getters
+		void setPlayer(string, int, bool);
+		//Utility functions
+		void printPlayer();
+
 		//Overloaded Operators
 		bool operator==(const Player&);
 		bool operator!=(const Player&);

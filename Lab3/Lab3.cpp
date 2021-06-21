@@ -102,7 +102,8 @@ int main(int argc, char** argv)
 	testReferences();
 	testOperators();
 	vector<Game> glist;
-	Game game;  game.createOneGame(game);
+	Game game;  
+	game.createOneGame(game);
 	printAddress(game);
 	game.createMultipleGames(glist);
 

@@ -6,7 +6,7 @@ PROFESSOR: Frank Emanuel
 COURSE: [CST8219 – 302]
 ******************************************/
 
-#include<iostream>
+#include <iostream>
 #include <vector>
 #include "Player.h"
 
