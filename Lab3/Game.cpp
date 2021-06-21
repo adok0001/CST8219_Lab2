@@ -102,7 +102,9 @@ bool CST8219::Game::operator!=(const Game& g)
 //overloaded prefix increment operator
 Game CST8219::Game::operator++()
 {
-	++numPlayers;
+	if (numPlayers != 9)
+		++numPlayers;
+	
 	return Game(this);
 }
 
@@ -110,14 +112,19 @@ Game CST8219::Game::operator++()
 Game CST8219::Game::operator++(int)
 {
 	Game temp(this);
-	numPlayers++;
+
+	if (numPlayers != 9)
+		numPlayers++;
+
 	return temp;
 }
 
 //overloaded prefix decrement operator
 Game CST8219::Game::operator--()
 {
-	--numPlayers;
+	if (numPlayers != 1)
+		--numPlayers;
+
 	return Game(this);
 }
 
@@ -125,7 +132,9 @@ Game CST8219::Game::operator--()
 Game CST8219::Game::operator--(int)
 {
 	Game temp(this);
-	numPlayers--;
+	if (numPlayers != 1)
+		numPlayers--;
+
 	return temp;
 }
 
@@ -139,32 +148,33 @@ ostream& CST8219::operator<<(ostream& out, const Game& g)
 //overloaded input stream
 istream& CST8219::operator>>(istream& in, Game& g)
 {
-
 	do {
 		cout << "Enter the name: ";
-		cin >> g.name;
+		in >> g.name;
 		if (g.name.empty()) {
 			cout << "Name cannot be empty" << endl;
-			cin.clear();
+			in.clear();
 		}
 	} while (g.name.empty());
 
 	do {
 		cout << "Enter the number of players: ";
-		cin >> g.numPlayers;
+		in >> g.numPlayers;
 		if (g.numPlayers < 1 || g.numPlayers > 10) {
-			cin.clear();
+			in.clear();
 			cout << "Number of players must be between 1-10 " << endl;
 		}
 
 	} while (g.numPlayers < 1 || g.numPlayers > 10);
-	g.createPlayer();
+	
+	// after setting number of PLayers createPLayers based on that number
+	g.createPlayer(); 
 
 	do {
 		cout << "Enter the game duration: ";
-		cin >> g.timeout;
+		in >> g.timeout;
 		if (g.timeout <= 0) {
-			cin.clear();
+			in.clear();
 			cout << "Timeout cannot be a negative number\n";
 		}
 
@@ -191,41 +201,9 @@ void Game::printGame() {
 **************************************************************/
 Game Game::createOneGame(Game g) {
 
-	/*
-	do {
-		cout << "Enter the name: " << endl;
-		cin >> name;
-		if (name.empty()) {
-			cout << "Name cannot be empty" << endl;
-			cin.clear();
-		}
-	} while (name.empty());
-
-	do {
-		cout << "Enter the number of players" << endl;
-		cin >> numPlayers;
-		if (numPlayers < 1 || numPlayers > 10) {
-			cin.clear();
-			cout << "Number of players must be between 1-10 " << endl;
-		}
-		
-	} while (numPlayers < 1 || numPlayers > 10);
-
-	do {
-		cout << "Enter the game duration" << endl;
-		cin >> timeout;
-		if (timeout <= 0) {
-			cin.clear();
-			cout << "Timeout cannot be a negative number\n";
-		}
-
-	} while (timeout <= 0);
-	*/
-
-	//g = Game(name, numPlayers, timeout);
-	cin >> g;
-	g.listPlayers();
-	cout << g << endl;
+	cin >> g; //using overloaded input stream
+	cout << g << endl; //printing with overloaded output operator
+	g.listPlayers(); //lists all the players of the game
 	return g;
 
 }
@@ -266,12 +244,12 @@ void Game::createPlayer()
 	for (i = 0; i < numPlayers; i++) {
 		std::cout << "Enter player name: ";
 		std::cin >> name;
-		Player p(name);
-		setPlayersList(p);
+		Player p(name); //creates a new player with only name attribute set
+		setPlayersList(p); //adds Player to vector playerList
 	}
 
-	for (i = 0; i < numPlayers; i++)
-		getPLayersList().at(i).printPlayer();
+	//for (i = 0; i < numPlayers; i++)
+	//	getPLayersList().at(i).printPlayer(); //gets playerList and prints member players
 
 }
 

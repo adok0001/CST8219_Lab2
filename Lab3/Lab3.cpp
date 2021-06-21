@@ -66,7 +66,7 @@ void testReferences() {
 }
 
 void testOperators() {
-	Game original("Fela",5,1200);
+	Game original("Fela",5,2000);
 	Game copy(original); // copy constructor by reference
 	cout << "Original is: " << original << " copy is: " << copy << endl;
 	cout << "Increment original: " << original++ << endl;
@@ -96,36 +96,15 @@ void printAddress(Game g) {
 
 int main(int argc, char** argv)
 {
-	/*lab1();
-	lab2();*/
-	/*testReferences();
+	
+	lab1();
+	lab2();
+	testReferences();
 	testOperators();
 	vector<Game> glist;
 	Game game;  game.createOneGame(game);
 	printAddress(game);
-	game.createMultipleGames(glist);*/
-	vector<Player> playersList;
-	//game.getList().push_back();
-	Player p("Pope");
-	playersList.push_back(p);
-	//game.getList().push_back(p);
-	//game.setPlayersList(p);
-	//++p;
-	//p.printPlayer();
-	p.setPlayer("Tam", 11, true);
-	++p;
-	Player q  = new Player(p);
-	playersList.push_back(q);
-	//game.getList().push_back(q);
-	//game.setPlayersList(q);
-	//q.printPlayer();
-	q++;
-	Player r(&q);
-	r++;
-	playersList.push_back(r);
-	for (int i = 0; i < 3; i++)
-		playersList.at(i).printPlayer();
-		//game.getList().at(i).printPlayer();
+	game.createMultipleGames(glist);
 
 	return EXIT_SUCCESS;
 }
