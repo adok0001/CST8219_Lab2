@@ -13,4 +13,4 @@ add_executable (Lab3 "Lab3.cpp" "Game.h" "Game.cpp" "Player.cpp" "Player.h")
 # TODO: Add tests and install targets if needed.
 set_property(TARGET Lab3 PROPERTY CXX_STANDARD 11)
 set_property(TARGET Lab3 PROPERTY CXX_STANDARD_REQUIRED ON)
-
+ 

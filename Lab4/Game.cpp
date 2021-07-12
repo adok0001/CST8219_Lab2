@@ -47,6 +47,7 @@ int CST8219::Game::getCurrentPlayer()
 	for (i = 0; i < playersList.size(); i++) {
 		if (playersList.at(i).getCurrentPlayer()) return i;
 	}
+	return 0;
 }
 
 int CST8219::Game::getCurrentAttempt()
@@ -193,7 +194,7 @@ void Game::createPlayer()
 	int randCurr=0;
 	string playerName; //variable to store player name
 
-	for (i = 0; i < numPlayers; i++) {
+	for (i = 0; i < getNumPlayers(); i++) {
 		std::cout << "Enter player name: ";
 		std::cin >> playerName;
 		Player p(playerName); //creates a new player with only name attribute set
@@ -246,8 +247,6 @@ void Game::play() {
 	int newPoints, totalPoints, nextPlayer;
 	int attempt = getCurrentAttempt();	
 	int tempCurrent = getCurrentPlayer();
-	Player currentPlayer = playersList.at(getCurrentPlayer());
-
 
 	switch (gameType) {
 
@@ -256,14 +255,14 @@ void Game::play() {
 			currentAttempt++;
 			auto start = chrono::system_clock::now();
 			newPoints = rand() % MAX_POINTS;
-			totalPoints = newPoints + currentPlayer.getPoints();
+			totalPoints = newPoints + playersList.at(0).getPoints();
 			auto end = chrono::system_clock::now();
 			printf("*******Turn %d*******", currentAttempt);
 			cout << "\nPoints = " << newPoints << " Life expectancy = " << getLifeExpectancy() << " Win probability = " << getWinProbability() << endl;
 
 			chrono::duration <double> diff = end - start;
 			currentTimeout += diff.count() * 10000000;
-			playersList.at(getCurrentPlayer()).setPoints(totalPoints);
+			playersList.at(0).setPoints(totalPoints);
 			if (getLifeExpectancy() <= 0) {
 				cout << "You are dead!" << endl;
 			}
@@ -297,17 +296,17 @@ void Game::play() {
 
 			auto start = system_clock::now();
 			newPoints = rand() % MAX_POINTS;
-			totalPoints = newPoints + currentPlayer.getPoints();
+			totalPoints = newPoints + playersList.at(getCurrentPlayer()).getPoints();
 			auto end = system_clock::now();
 
 			duration <double> diff = end - start;
 			time += diff.count() * 1000000;
-			cout << "\nPoints = " << newPoints << " Life expectancy = " << getLifeExpectancy() << " Win probability = " << getWinProbability() << endl;
-
 			Game::setCurrentTimeout(time);
-			currentPlayer.setPoints(totalPoints);
+			playersList.at(getCurrentPlayer()).setPoints(totalPoints);
 			int nextPlayer = rand() % Game::getNumPlayers();
 			Game::setCurrentPlayer(nextPlayer);
+
+			cout << "\nPoints = " << newPoints << " Life expectancy = " << getLifeExpectancy() << " Win probability = " << getWinProbability() << endl;
 			if (getLifeExpectancy() <= 0) cout << "You died!" << endl;
 		}
 		break;

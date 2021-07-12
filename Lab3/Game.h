@@ -38,7 +38,7 @@ namespace CST8219 {
 
 	public:
 		//constructor declarations + destructor
-		Game(string, int, double);
+		Game(string name ="[NoName]", int nPlayers = 1, double duration = -1);
 		Game(string, int);
 		Game(string);
 		Game();
@@ -70,10 +70,8 @@ namespace CST8219 {
 		Game operator++(int);
 		Game operator--();
 		Game operator--(int);
-
 		
 	};
-
 
 }
 

@@ -1,3 +1,5 @@
+#include "..\Lab4\Game.h"
+#include "..\Lab4\Game.h"
 /******************************************
 FILE: Game.cpp
 PURPOSE: Defines game class functions and constructors
@@ -71,6 +73,14 @@ void Game::setTimeout(double t) {
 void CST8219::Game::setPlayersList(Player p)
 {
 	playersList.push_back(p);
+}
+
+void CST8219::Game::setCurrentPlayer(int)
+{
+}
+
+void CST8219::Game::setCurrentTimeout(int)
+{
 }
 
 //overloaded assignment operator

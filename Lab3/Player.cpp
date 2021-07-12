@@ -1,5 +1,5 @@
 /******************************************
-FILE: PLayer.h
+FILE: Player.cpp
 PURPOSE: Defines Player class functions and constructors
 AUTHOR(S): Adokeme Tamara - 040973188
 PROFESSOR: Frank Emanuel
@@ -53,14 +53,14 @@ Player::Player(Player* copy) {
 //overloaded equality operator
 bool CST8219::Player::operator==(const Player& p)
 {
-	if (name == p.name && points == p.points)
+	if (name == p.name && points == p.points && isCurrentPlayer == p.isCurrentPlayer)
 		return true;
 	return false;
 }
 //overloaded inequality operator
 bool CST8219::Player::operator!=(const Player& p)
 {
-	if (name == p.name && points == p.points)
+	if (name == p.name && points == p.points && isCurrentPlayer == p.isCurrentPlayer)
 		return false;
 	return true;
 }

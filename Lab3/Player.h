@@ -1,5 +1,5 @@
 /******************************************
-FILE: Player.cpp
+FILE: Player.h
 PURPOSE: Header file for Player class
 AUTHOR(S): Adokeme Tamara - 040973188
 PROFESSOR: Frank Emanuel
@@ -35,6 +35,7 @@ namespace CST8219 {
 		Player(Player* copy);
 		//Setters & Getters
 		void setPlayer(string, int, bool);
+
 		//Utility functions
 		void printPlayer();
 
