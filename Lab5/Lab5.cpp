@@ -43,6 +43,7 @@ void lab5() {
 int main(int argc, char** argv)
 {
 	//lab5();
+	srand(time(NULL));
 	int answer=0;
 	do {
 		cout << "Select the game type: (1) Electronic, (2) Competitive, (3) Mixed, (0) Quit: " << endl;
@@ -65,8 +66,8 @@ int main(int argc, char** argv)
 			}
 			case 3: {
 				MixedGameT<int> mg = MixedGameT<int>("Mixed Game Demo", 3, DEFAULT_TIMEOUT);
-				/*mg.play();
-				mg.showResults();*/
+				mg.play();
+				mg.showResults();
 				break;
 			}
 		}
