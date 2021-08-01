@@ -29,8 +29,7 @@ namespace CST8219 {
 	template <class T>
 	class PlayerT {
 		friend ostream& operator<< (ostream& out, const PlayerT& p) {
-			out << "Player Name: " << p.name << " - Points: " << p.points;
-			if (p.isCurrentPlayer) out << " - Current Player **  ";
+			out << "Player Name: " << p.name << " - Points: " << p.points << " - Current Player " << p.isCurrentPlayer;
 			out << "\n";
 			return out;
 		}
@@ -38,6 +37,7 @@ namespace CST8219 {
 		friend istream& operator>> (istream& in, PlayerT& p) {
 			cout << "Enter player name: ";
 			in >> p.name;
+			//p.setCurrentPlayer(true);
 			return in;
 		}
 
@@ -52,6 +52,7 @@ namespace CST8219 {
 		PlayerT(const PlayerT& copy);
 		PlayerT(PlayerT* copy);
 		//Setters & Getters
+		string getName();
 		void setPlayer(string, T, bool);
 		void setName(string);
 		void setPoints(T);

@@ -39,7 +39,15 @@ void PlayerT<T>::setName(string n) {
 
 template<class T>
 void PlayerT<T>::setPoints(T p) {
+	if (p < 0)
+		p = 0;
 	points = p;
+}
+
+template<class T>
+string CST8219::PlayerT<T>::getName()
+{
+	return name;
 }
 
 template<class T>

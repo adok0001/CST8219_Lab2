@@ -64,11 +64,13 @@ int CST8219::GameT<T>::getCurrentTimeout()
 {
 	return currentTimeout;
 }
-template <class T>
-vector<PlayerT> CST8219::GameT<T>::getPlayersList()
+
+template<class T>
+vector<PlayerT<T>> CST8219::GameT<T>::getPlayersList()
 {
 	return playersList;
 }
+
 template <class T>
 void GameT<T>::getGame(string n, int p, double t)
 {
@@ -99,95 +101,26 @@ template <class T>
 void GameT<T>::setTimeout(double t) {
 	timeout = t;
 }
-template <class T>
-void GameT<T>::setCurrentPlayer(int a) {
-	playersList.at(getCurrentPlayer()).setCurrentPlayer(false);
-	playersList.at(a).setCurrentPlayer(true);
-}
-template <class T>
-void CST8219::GameT::setCurrentTimeout(int c)
-{
-	currentTimeout = c;
-}
-/**
-void CST8219::Game::setPlayersList(PlayerT p)
+template<class T>
+void CST8219::GameT<T>::setPlayersList(PlayerT<T> p)
 {
 	playersList.push_back(p);
 }
-*/
 template <class T>
-void CST8219::GameT<T>::setGameType(GameType g)
+void GameT<T>::setCurrentPlayer(int a) {
+	if (a >= numPlayers) a = 0;
+	playersList.at(getCurrentPlayer()).setCurrentPlayer(false);
+	playersList.at(a).setCurrentPlayer(true);
+	currentPlayer = a;
+}
+
+template <class T>
+void CST8219::GameT<T>::setCurrentTimeout(double c)
 {
-	gameType = g;
-}
-
-//overloaded output stream
-ostream& CST8219::operator<<(ostream& out, const GameT& g)
-{
-	out << "\nName: " << g.name << " - Numplayers: " << g.numPlayers << " - Timeout: " << g.timeout;
-	return out;
-}
-
-//overloaded input stream
-istream& CST8219::operator>>(istream& in, GameT& g)
-{
-	do {
-		cout << "Enter the name of the game: ";
-		in >> g.name;
-		if (g.name.empty()) {
-			cout << "\nName cannot be empty";
-			in.clear();
-		}
-	} while (g.name.empty());
-
-	do {
-		cout << "Enter the number of players: ";
-		in >> g.numPlayers;
-		if (g.numPlayers < 1 || g.numPlayers > 10) {
-			in.clear();
-			cout << "\nNumber of players must be between 1-10 " ;
-		}
-
-	} while (g.numPlayers < 1 || g.numPlayers > 10);
-	
-	// after setting number of PLayers createPLayers based on that number
-	g.createPlayer(); 
-
-	do {
-		cout << "Enter the game duration: ";
-		in >> g.timeout;
-		if (g.timeout <= 0) {
-			in.clear();
-			cout << "Timeout cannot be a negative number\n";
-		}
-
-	} while (g.timeout <= 0);
-
-	return in;
+	currentTimeout = c;
 }
 
 
-/************************************************************
-* Function name: printGame
-* Purpose: prints the attributes of a game including players
-* Return value: void
-**************************************************************/
-void GameT<T>::printGame() {
-	cout << "********************Game Information**********************" << endl;
-	cout << "Type: " << gameType << " Name: " << name << " - Number of players: " << numPlayers << " - Timeout: " << timeout << endl;
-	listPlayers();
-}
-
-/************************************************************
-* Function name: createPlayer
-* Purpose: creates player(s) for a game instance
-* Return value: void
-**************************************************************/
-void GameT<T>::createPlayer()
-{
-	PlayerT<int> p;
-	cin >> p;
-}
 
 /************************************************************
 * Function name: listPlayers
@@ -198,23 +131,13 @@ void Game::listPlayers() {
 	for (PlayerT<T> p : playersList)
 		p.printPlayer();
 }
-/***************************************************
-* Function name: start
-* Purpose: Initializes game with players and runs sim
-* Return value: void
-***************************************************/
-void GameT<T>::start() {
-	cout << "************Game " << name << "*****************" << endl;
-	createPlayer();
-	play();
-	printGame();
-}
+
 
 /************************************************************
 * Function name: Play
 * Purpose: Run a game simulation based on the game type
 * Return value: void 
-* */
+* *
 
 void GameT<T>::play() {
 	srand(time(0));
@@ -222,45 +145,6 @@ void GameT<T>::play() {
 	int newPoints, totalPoints, nextPlayer;
 	int attempt = getCurrentAttempt();	
 	int tempCurrent = getCurrentPlayer();
-
-	switch (gameType) {
-
-	case ELECTRONIC:
-		while (currentAttempt < MAX_ATTEMPTS && currentTimeout <= timeout) {
-			currentAttempt++;
-			auto start = chrono::system_clock::now();
-			newPoints = rand() % MAX_POINTS;
-			totalPoints = newPoints + playersList.at(0).getPoints();
-			auto end = chrono::system_clock::now();
-			printf("*******Turn %d*******", currentAttempt);
-			cout << "\nPoints = " << newPoints << " Life expectancy = " << getLifeExpectancy() << " Win probability = " << getWinProbability() << endl;
-
-			chrono::duration <double> diff = end - start;
-			currentTimeout += diff.count() * 10000000;
-			playersList.at(0).setPoints(totalPoints);
-			if (getLifeExpectancy() <= 0) {
-				cout << "You are dead!" << endl;
-			}
-		}
-		break;
-
-	case COMPETITIVE:
-
-		do {
-			while (currentAttempt < MAX_ATTEMPTS) {
-				currentAttempt++;
-				printf("\n*******Turn %d - Player %d*******", currentAttempt, tempCurrent + 1);
-				newPoints = rand() % MAX_POINTS;
-				totalPoints = newPoints + playersList.at(getCurrentPlayer()).getPoints();
-				playersList.at(getCurrentPlayer()).setPoints(totalPoints);
-				cout << "\nPoints = " << newPoints << " Life expectancy = " << getLifeExpectancy() << " Win probability = " << getWinProbability() << endl;
-			}
-			setCurrentPlayer(tempCurrent++);
-			currentAttempt = 0;
-
-		} while (tempCurrent < getNumPlayers());
-		break;
-
 	case MIXED:
 		while (attempt <= MAX_ATTEMPTS && GameT::getCurrentTimeout() <= GameT::getTimeout()) {
 			printf("\n*******Turn %d - Player %d*******", attempt, GameT::getCurrentPlayer() + 1);
@@ -290,46 +174,153 @@ void GameT<T>::play() {
 
 }
 
-
-
+*/
+template <class T>
 CST8219::ElectronicGameT<T>::ElectronicGameT(string gameName, double timeout):GameT(gameName, 1, timeout) {
 	gameType = ELECTRONIC;
 }
-
+template <class T>
 float CST8219::ElectronicGameT<T>::getLifeExpectancy() {
 	return 100.0 * (1.0 - (currentTimeout / getTimeout()));
 }
-
+template <class T>
 float CST8219::ElectronicGameT<T>::getWinProbability() {
 	return 100.0;
 }
+template <class T>
+void CST8219::ElectronicGameT<T>::play() {
+	srand(time_t(0));
+	T currentPoints, totalPoints = 0;
+	PlayerT<T> p;
+	cin >> p;
+	p.setCurrentPlayer(true);
+	while (currentAttempt < MAX_ATTEMPTS && currentTimeout <= getTimeout()) {	
+		currentAttempt++;
+		
+		auto start = chrono::system_clock::now();
+		currentPoints = rand() % MAX_POINTS + 1;
+		totalPoints += currentPoints;
+		pointsPerTurn.push(currentPoints);
+		auto end = chrono::system_clock::now();
+		p.setPoints(totalPoints);
+		printf("*******Turn %d*******", currentAttempt);
+		cout << "\nPoints = " << currentPoints << " Life expectancy = " << getLifeExpectancy() << " Win probability = " << getWinProbability() << endl;
 
+		chrono::duration <double> diff = end - start;
+		currentTimeout += diff.count() * 10000000;
+
+		if (getLifeExpectancy() <= 0) {
+			cout << "You are dead!" << endl;
+		}
+
+	}
+	setPlayersList(p);
+}
+
+template<class T>
+void CST8219::ElectronicGameT<T>::showResults()
+{
+
+	T points, result = 0;
+
+	cout << getPlayersList().at(0);
+	while (!pointsPerTurn.empty()) {
+		points = (T)pointsPerTurn.front();
+		result += points;
+		cout << " " << points;
+		pointsPerTurn.pop();
+	}
+	
+	cout << " - Total: " << result << endl;
+}
+
+template <class T>
 CST8219::CompetitiveGameT<T>::CompetitiveGameT(string gameName, int nPlayers):GameT(gameName, nPlayers, DEFAULT_TIMEOUT) {
 	gameType = COMPETITIVE;
 }
 
+template <class T>
 float CST8219::CompetitiveGameT<T>::getLifeExpectancy()
 {	
 	return 100.0 * (1.0 - (getCurrentAttempt()/MAX_ATTEMPTS));
 }
-
+template <class T>
 float CompetitiveGameT<T>::getWinProbability() {
 	return (100.0 * (1.0 / getNumPlayers()));
 }
+template <class T>
+void CompetitiveGameT<T>::play() {
+	srand(time_t(0));
+	int playerNum = getNumPlayers();
+	T newPoints, totalPoints;
+	for (int i = 0; i < playerNum; i++) {
+		PlayerT<T> p;
+		cin >> p;
+		setPlayersList(p);
+	}
 
+	currentPlayer = rand() % playerNum-1;
+	setCurrentPlayer(currentPlayer);
+	for (int i = 0; i < playerNum; i++) {
+		currentAttempt = 0;
+		while (currentAttempt < MAX_ATTEMPTS) {
+			printf("\n*******Turn %d - Player %d*******", currentAttempt++, currentPlayer);
+			newPoints = rand() % MAX_POINTS;
+			totalPoints = newPoints + playersList.at(getCurrentPlayer()).getPoints();
+			playersList.at(currentPlayer).setPoints(totalPoints);
+			pointsPerPlayer.push_back(newPoints);
+			cout << "\nPoints = " << newPoints << " Life expectancy = " << getLifeExpectancy() << " Win probability = " << getWinProbability() << endl;
+		}
+		currentPlayer++;
+		setCurrentPlayer(currentPlayer);
+	}
+
+}
+template <class T>
+void CompetitiveGameT<T>::showResults() {
+	int playerNum = getNumPlayers();
+	int current = currentPlayer - 1;
+	list<T>::iterator it = pointsPerPlayer.begin();
+	advance(it, (playerNum-1) * 10);
+
+	for (int i = 0; i < playerNum; i++) {
+		PlayerT<T> tempCurrent = getPlayersList().at(current);
+		cout << "Player name: " << tempCurrent.getName();
+		cout << " - Points: ";
+		for (int j = 0; j < 10; j++) {
+			cout << " " << *it;
+			it++;
+		}
+		
+		cout << " - Total: " << tempCurrent.getPoints() << endl;
+		current++;
+		setCurrentPlayer(current);
+		it = pointsPerPlayer.begin();
+		advance(it, i * 10);
+	}
+}
+template <class T>
 MixedGameT<T>::MixedGameT(string gameName, int n, double t) : ElectronicGameT(gameName, t){//, CompetitiveGame(gameName, n) {
-	GameT::setGameType(MIXED);
+//	GameT::setGameType(MIXED);
 	GameT::setName(gameName);
 	GameT::setNumPlayers(n);
 	GameT::setTimeout(t);
-}
-
+} 
+template <class T>
 float MixedGameT<T>::getLifeExpectancy() {
 	return 100 * (1 - (GameT::getCurrentTimeout() / GameT::getTimeout())) * (1.0 - GameT::getCurrentAttempt() / MAX_ATTEMPTS);
 }
-
+template <class T>
 float MixedGameT<T>::getWinProbability() {
 	return (100.0 * (1.0 / GameT::getNumPlayers()));
 }
 
+template <class T>
+void MixedGameT<T>::play() {
 
+}
+
+template <class T>
+void MixedGameT<T>::showResults() {
+
+}

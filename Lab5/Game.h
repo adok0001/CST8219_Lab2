@@ -8,6 +8,10 @@ COURSE: [CST8219 – 302]
 
 #include <iostream>
 #include <vector>
+#include <queue>
+#include <list>
+#include <map>
+
 #include "Player.h"
 
 using namespace std;
@@ -15,7 +19,7 @@ const double NO_TIMEOUT(-1);
 
 const int MAX_ATTEMPTS = 10; // (max turns to be attempted per game)
 const int MAX_POINTS = 10; // (max points that each player can get per turn)
-const int DEFAULT_TIMEOUT = 1000; // (limit timeout in microseconds).
+const double DEFAULT_TIMEOUT = 1000; // (limit timeout in microseconds).
 
 namespace CST8219 {
 #pragma once
@@ -30,8 +34,51 @@ namespace CST8219 {
 		* playersList = List to store the players of a game
 		* *************************************************************/
 	template <class T> class GameT {
-		friend ostream& operator << (ostream&, const GameT&);
-		friend istream& operator >> (istream&, GameT&);
+		//overloaded output stream
+		friend ostream& operator<<(ostream& out, const GameT& g)
+		{
+			out << "\nName: " << g.name << " - Numplayers: " << g.numPlayers << " - Timeout: " << g.timeout;
+			return out;
+		}
+
+		//overloaded input stream
+		friend istream& operator>>(istream& in, GameT& g)
+		{
+			do {
+				cout << "Enter the name of the game: ";
+				in >> g.name;
+				if (g.name.empty()) {
+					cout << "\nName cannot be empty";
+					in.clear();
+				}
+			} while (g.name.empty());
+
+			do {
+				cout << "Enter the number of players: ";
+				in >> g.numPlayers;
+				if (g.numPlayers < 1 || g.numPlayers > 10) {
+					in.clear();
+					cout << "\nNumber of players must be between 1-10 ";
+				}
+
+			} while (g.numPlayers < 1 || g.numPlayers > 10);
+
+			// after setting number of PLayers createPLayers based on that number
+			g.createPlayer();
+
+			do {
+				cout << "Enter the game duration: ";
+				in >> g.timeout;
+				if (g.timeout <= 0) {
+					in.clear();
+					cout << "Timeout cannot be a negative number\n";
+				}
+
+			} while (g.timeout <= 0);
+
+			return in;
+		}
+
 		
 	private:
 		//class properties
@@ -55,7 +102,6 @@ namespace CST8219 {
 		//Virtual functions
 		float virtual getLifeExpectancy() = 0; 
 		virtual float getWinProbability() = 0;
-		virtual void start();
 		//Getters 
 		string getName();
 		int getNumPlayers();
@@ -64,18 +110,18 @@ namespace CST8219 {
 		int getCurrentAttempt();
 		int getCurrentTimeout();
 		int getGameType();
-		//vector<PlayerT> getPlayersList();
+		vector<PlayerT<T>> getPlayersList();
 		void getGame(string, int, double);
 		//Setters
 		void setName(string);
 		void setNumPlayers(int);
 		void setTimeout(double);
-		//void setPlayersList(PlayerT<T> p);
-		void setGameType(GameType);
+		void setPlayersList(PlayerT<T> p);
+		//void setGameType(GameType);
 		void setGame(string, int, double);
 		void setCurrentAttempt(int);
 		void setCurrentPlayer(int);
-		void setCurrentTimeout(int);
+		void setCurrentTimeout(double);
 		//Overloaded operators
 		inline PlayerT<T> getPlayer(int pos);
 		inline GameT setPlayer(PlayerT<T> p, int pos);
@@ -90,17 +136,19 @@ namespace CST8219 {
 		queue <T> pointsPerTurn;
 		virtual float getLifeExpectancy();
 		virtual float getWinProbability();
-
+		void play();
+		void showResults();
 	};
 
 
 	template <class T> class CompetitiveGameT : public GameT<T> {
 	public:
 		CompetitiveGameT(string gameName = "Competitive", int nPlayers = 4); //default constructor
-		list <T> pointsPerPlayer;
-
+		list <T> pointsPerPlayer; 
 		virtual float getLifeExpectancy();
 		virtual float getWinProbability();
+		void play();
+		void showResults();
 	};
 
 	template <class T> class MixedGameT : public ElectronicGameT<T>, CompetitiveGameT<T> {
@@ -109,6 +157,8 @@ namespace CST8219 {
 		multimap <string, T> playerPointsMap;
 		virtual float getLifeExpectancy();
 		virtual float getWinProbability();
+		void play();
+		void showResults();
 	};
 
 
