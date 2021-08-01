@@ -13,10 +13,6 @@ using namespace std;
 
 namespace CST8219 {
 	#pragma once
-	//template <class T> class PlayerT;
-	//template <class T> ostream& operator<< (ostream&, const PlayerT<T>&);
-	//template <class T> istream& operator>> (istream&, PlayerT<T>&);
-
 	/************************************************************
 	* Class name : Players
 	* Purpose : This class creates an instance of a player that
@@ -33,11 +29,19 @@ namespace CST8219 {
 			out << "\n";
 			return out;
 		}
-
+		 
 		friend istream& operator>> (istream& in, PlayerT& p) {
-			cout << "Enter player name: ";
+			T points=0;
+			bool isCurrent;
+			cout << "Player name: ";
 			in >> p.name;
-			//p.setCurrentPlayer(true);
+			do {
+				cout << "Points: ";
+				in >> points;
+				if (points < 0)
+					cout << "Points cannot be negative\n";
+			} while (points < 0);
+			p.setPoints(points);
 			return in;
 		}
 
@@ -52,12 +56,12 @@ namespace CST8219 {
 		PlayerT(const PlayerT& copy);
 		PlayerT(PlayerT* copy);
 		//Setters & Getters
-		string getName();
-		void setPlayer(string, T, bool);
-		void setName(string);
-		void setPoints(T);
-		T getPoints();
-		void setCurrentPlayer(bool);
-		bool getCurrentPlayer(); // returns true or false for is Current
+		inline string getName();
+		inline void setPlayer(string, T, bool);
+		inline void setName(string);
+		inline void setPoints(T);
+		inline T getPoints();
+		inline void setCurrentPlayer(bool);
+		inline bool getCurrentPlayer(); // returns true or false for is Current
 	};
 }

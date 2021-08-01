@@ -103,25 +103,24 @@ namespace CST8219 {
 		float virtual getLifeExpectancy() = 0; 
 		virtual float getWinProbability() = 0;
 		//Getters 
-		string getName();
-		int getNumPlayers();
-		double getTimeout();
-		int getCurrentPlayer();
-		int getCurrentAttempt();
-		int getCurrentTimeout();
-		int getGameType();
-		vector<PlayerT<T>> getPlayersList();
+		inline string getName();
+		inline int getNumPlayers();
+		inline double getTimeout();
+		inline int getCurrentPlayer();
+		inline int getCurrentAttempt();
+		inline int getCurrentTimeout();
+		inline vector<PlayerT<T>> getPlayersList();
 		void getGame(string, int, double);
 		//Setters
-		void setName(string);
-		void setNumPlayers(int);
-		void setTimeout(double);
+		inline void setName(string);
+		inline void setNumPlayers(int);
+		inline void setTimeout(double);
 		void setPlayersList(PlayerT<T> p);
 		//void setGameType(GameType);
 		void setGame(string, int, double);
-		void setCurrentAttempt(int);
+		inline void setCurrentAttempt(int);
 		void setCurrentPlayer(int);
-		void setCurrentTimeout(double);
+		inline void setCurrentTimeout(double);
 		//Overloaded operators
 		inline PlayerT<T> getPlayer(int pos);
 		inline GameT setPlayer(PlayerT<T> p, int pos);

@@ -198,7 +198,7 @@ void CST8219::ElectronicGameT<T>::play() {
 		currentAttempt++;
 		auto start = chrono::system_clock::now();
 		currentPoints = rand() % MAX_POINTS + 1;
-		totalPoints += currentPoints;
+		totalPoints = currentPoints + p.getPoints();
 		pointsPerTurn.push(currentPoints);
 		auto end = chrono::system_clock::now();
 		p.setPoints(totalPoints);
